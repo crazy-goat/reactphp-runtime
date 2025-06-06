@@ -1,36 +1,41 @@
 {
-    "name": "runtime/react",
-    "description": "ReactPHP runtime",
+    "name": "crazy-goat/reactphp-runtime",
+    "description": "ReactPHP runtime for Symfony apps",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
             "name": "Tobias Nyholm",
             "email": "tobias.nyholm@gmail.com"
+        },
+        {
+            "name": "Piotr Halas",
+            "email": "halaspiotr@gmail.com"
         }
     ],
     "require": {
+        "ext-pcntl": "*",
         "php": ">=8.0.5",
         "psr/http-server-handler": "^1.0",
         "react/http": "^1.6",
         "symfony/runtime": "^5.4 || ^6.0 || ^7.0",
-        "symfony/http-kernel": "^7.3",
-        "ext-pcntl": "*"
+        "symfony/http-kernel": "^5.4 || ^6.0 || ^7.0",
+        "symfony/psr-http-message-bridge": "^2.1 || ^6.4 || ^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "nyholm/psr7": "^1.8"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
-            "Runtime\\React\\": "src/",
-            "Symfony\\Runtime\\Psr\\Http\\": "runtime/"
+            "CrazyGoat\\ReactPHPRuntime\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Runtime\\React\\Tests\\": "tests/"
+            "CrazyGoat\\ReactPHPRuntime\\Tests\\": "tests/"
         }
     },
     "config": {

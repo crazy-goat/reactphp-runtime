@@ -1,16 +1,16 @@
 <?php
 
-namespace Runtime\React;
+namespace CrazyGoat\ReactPHPRuntime;
 
-use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
 class Runner implements RunnerInterface
 {
-    private KernelInterface $kernel;
+    private HttpKernelInterface $kernel;
     private ServerFactory $serverFactory;
 
-    public function __construct(ServerFactory $serverFactory, KernelInterface $kernel)
+    public function __construct(ServerFactory $serverFactory, HttpKernelInterface $kernel)
     {
         $this->serverFactory = $serverFactory;
         $this->kernel = $kernel;
