@@ -24,7 +24,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
-        "nyholm/psr7": "^1.8"
+        "nyholm/psr7": "^1.8",
+        "league/mime-type-detection": "^1.16"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,

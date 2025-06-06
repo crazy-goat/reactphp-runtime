@@ -7,45 +7,23 @@ If you are new to the Symfony Runtime component, read more in the [main readme](
 ## Installation
 
 ```
-composer require runtime/react
+composer require crazy-goat/reactphp-runtime
 ```
 
 ## Usage
 
-Define the environment variable `APP_RUNTIME` for your application.
+Define the environment variable `APP_RUNTIME` for your application. You can also provide
+`APP_ENV` and `APP_DEBGU` variables to define runtime environment.
 
 ```
-APP_RUNTIME=Runtime\React\Runtime
+ APP_ENV=prod APP_DEBUG=1 APP_RUNTIME=CrazyGoat\\ReactPHPRuntime\\Runtime php ./public/index.ph
 ```
 
-### PSR-15
+## Server options
 
-```php
-// public/index.php
+| Option    | Description                                                                                | Default |
+|-----------|--------------------------------------------------------------------------------------------|---------|
+| `host`    | The host where the server should bind to (precedes `REACT_HOST` environment variable)      | `127.0.0.1` |
+| `port`    | The port where the server should be listening (precedes `REACT_PORT` environment variable) | `8080`  |
+| `docroot` | Set the root dir for serving files (precedes `REACT_PORT` environment variable)            | `""`      |
 
-use Psr\Http\Server\RequestHandlerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Nyholm\Psr7;
-
-require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
-
-class Application implements RequestHandlerInterface {
-    // ...
-    public function handle(ServerRequestInterface $request): ResponseInterface
-    {
-        return new Psr7\Response(200, [], 'PSR-15');
-    }
-}
-
-return function (array $context) {
-    return new Application($context['APP_ENV'] ?? 'dev');
-};
-```
-
-## Options
-
-| Option | Description                                                                                | Default     |
-| --- |--------------------------------------------------------------------------------------------|-------------|
-| `host` | The host where the server should bind to (precedes `REACT_HOST` environment variable)      | `127.0.0.1` |
-| `port` | The port where the server should be listening (precedes `REACT_PORT` environment variable) | `8080`      |

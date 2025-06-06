@@ -18,6 +18,8 @@ class Runner implements RunnerInterface
 
     public function run(): int
     {
+        $this->kernel->boot();
+
         $loop = $this->serverFactory->createServer(new RequestHandler($this->kernel));
         $loop->run();
 
