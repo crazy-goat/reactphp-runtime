@@ -25,5 +25,5 @@ Define the environment variable `APP_RUNTIME` for your application. You can also
 |-----------|--------------------------------------------------------------------------------------------|---------|
 | `host`    | The host where the server should bind to (precedes `REACT_HOST` environment variable)      | `127.0.0.1` |
 | `port`    | The port where the server should be listening (precedes `REACT_PORT` environment variable) | `8080`  |
-| `docroot` | Set the root dir for serving files (precedes `REACT_PORT` environment variable)            | `""`      |
+| `document_root_dir` | Set the root dir for serving files (precedes `DOCUMENT_ROOT_DIR` environment variable)            | `""`      |
 
