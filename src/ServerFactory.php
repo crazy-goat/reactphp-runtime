@@ -1,6 +1,6 @@
 <?php
 
-namespace Runtime\React;
+namespace CrazyGoat\ReactPHPRuntime;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;

@@ -1,12 +1,12 @@
 <?php
 
-namespace Runtime\React\Tests;
+namespace CrazyGoat\ReactPHPRuntime\Tests;
 
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
-use Runtime\React\ServerFactory;
+use CrazyGoat\ReactPHPRuntime\ServerFactory;
 
 class ServerFactoryTest extends TestCase
 {
