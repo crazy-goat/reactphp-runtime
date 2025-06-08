@@ -25,7 +25,8 @@
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "nyholm/psr7": "^1.8",
-        "league/mime-type-detection": "^1.16"
+        "league/mime-type-detection": "^1.16",
+        "php-cs-fixer/shim": "^3.75"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -43,5 +44,16 @@
         "allow-plugins": {
             "symfony/runtime": true
         }
+    },
+    "scripts": {
+        "test": [
+            "vendor/bin/phpunit"
+        ],
+        "lint-fix": [
+            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v"
+        ],
+        "lint": [
+            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v --dry-run"
+        ]
     }
 }

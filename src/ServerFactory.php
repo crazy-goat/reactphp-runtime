@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime;
 
 use CrazyGoat\ReactPHPRuntime\Metrics\BasicMetric;
@@ -32,7 +34,7 @@ class ServerFactory
         return self::DEFAULT_OPTIONS;
     }
 
-    public function __construct(array $options = [], private KernelInterface $kernel)
+    public function __construct(array $options, private KernelInterface $kernel)
     {
         $options['host'] = $this->getOption('host', 'REACT_HOST', $options, '0.0.0.0');
         $options['port'] = $this->getOption('port', 'REACT_PORT', $options, 8080);
@@ -62,7 +64,7 @@ class ServerFactory
             new StaticFileMiddleware($this->options['root_dir']),
             function (ServerRequestInterface $request) use ($requestHandler) {
                 return $requestHandler->handle($request);
-            }
+            },
         );
 
         $listen = sprintf('%s:%s', $this->options['host'], $this->options['port']);

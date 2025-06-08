@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
@@ -26,7 +28,7 @@ class ErrorMiddleware
 
         $errorData = [
             'error' => true,
-            'type' => get_class($exception),
+            'type' => $exception::class,
             'message' => $exception->getMessage(),
             'code' => $exception->getCode() ?: 500,
         ];
@@ -38,7 +40,7 @@ class ErrorMiddleware
         return new Response(
             $statusCode,
             ['Content-Type' => 'application/json'],
-            json_encode($errorData)
+            json_encode($errorData),
         );
     }
 }

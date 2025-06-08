@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Tests;
 
-use PHPUnit\Framework\TestCase;
-use Psr\Http\Server\RequestHandlerInterface;
 use CrazyGoat\ReactPHPRuntime\Runner;
 use CrazyGoat\ReactPHPRuntime\Runtime;
+use PHPUnit\Framework\TestCase;
+use Psr\Http\Server\RequestHandlerInterface;
 
 class RuntimeTest extends TestCase
 {

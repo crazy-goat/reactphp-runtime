@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Metrics;
 
 use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\JsonMetricsFormatter;
@@ -52,19 +54,19 @@ class BasicMetric implements MetricsInterface
     {
         $this->refreshPeriod();
 
-        $metricsCollection = new  MetricsCollection($this->metricFormatter);
+        $metricsCollection = new MetricsCollection($this->metricFormatter);
         $metricsCollection->addGauge('total', 'connections', $this->totalConnectionCount);
-        $metricsCollection->addGauge('total', 'max_process_time',  $this->maxProcessTime ?? 0.0);
+        $metricsCollection->addGauge('total', 'max_process_time', $this->maxProcessTime ?? 0.0);
         $metricsCollection->addGauge('total', 'min_process_time', $this->minProcessTime ?? 0.0);
         $metricsCollection->addGauge('total', 'max_memory_usage', $this->maxMemoryUsage);
 
-        $metricsCollection->addGauge('current', 'interval',$this->interval);
+        $metricsCollection->addGauge('current', 'interval', $this->interval);
         $metricsCollection->addGauge('current', 'connections', $this->latestConnectionCount);
         $metricsCollection->addGauge('current', 'duty_cycle', $this->dutyCycle());
         $metricsCollection->addGauge('current', 'request_rate', $this->rate());
         $metricsCollection->addGauge('current', 'max_process_time', $this->latestMaxProcessTime ?? 0.0);
         $metricsCollection->addGauge('current', 'min_process_time', $this->latestMinProcessTime ?? 0.0);
-        $metricsCollection->addGauge('current', 'avg_process_time', $this->latestConnectionCount === 0 ? 0 : $this->latestProcessingTime/$this->latestConnectionCount,);
+        $metricsCollection->addGauge('current', 'avg_process_time', $this->latestConnectionCount === 0 ? 0 : $this->latestProcessingTime / $this->latestConnectionCount, );
         $metricsCollection->addGauge('current', 'max_memory_usage', $this->latestMaxMemoryUsage);
         $metricsCollection->addGauge('current', 'memory_usage', $this->latestMemoryUsage);
 
@@ -83,7 +85,7 @@ class BasicMetric implements MetricsInterface
     private function dutyCycle(): int
     {
         $duration = microtime(true) - floatval($this->period * $this->interval);
-        return ceil(100.0 * $this->latestProcessingTime / $duration);
+        return intval(ceil(100.0 * $this->latestProcessingTime / $duration));
     }
 
     private function rate(): int
@@ -93,7 +95,6 @@ class BasicMetric implements MetricsInterface
     }
 
     /**
-     * @return void
      */
     public function refreshPeriod(): void
     {

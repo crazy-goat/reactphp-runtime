@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Tests;
 
+use CrazyGoat\ReactPHPRuntime\Runner;
+use CrazyGoat\ReactPHPRuntime\ServerFactory;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
-use CrazyGoat\ReactPHPRuntime\Runner;
-use CrazyGoat\ReactPHPRuntime\ServerFactory;
 
 class RunnerTest extends TestCase
 {

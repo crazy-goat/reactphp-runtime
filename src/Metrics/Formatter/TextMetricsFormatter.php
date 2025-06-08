@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Metrics\Formatter;
 
 use CrazyGoat\ReactPHPRuntime\Metrics\MetricsCollection;
 
 class TextMetricsFormatter implements MetricsFormatterInterface
 {
-
     public function format(MetricsCollection $collection): string
     {
         $results = [];
@@ -15,7 +16,7 @@ class TextMetricsFormatter implements MetricsFormatterInterface
             foreach ($metrics as $metric => $value) {
                 $metric = str_replace('_', ' ', $metric);
 
-                $results[] = ucwords(strtolower("{$prefix} {$metric}")).": ".$value;
+                $results[] = ucwords(strtolower("{$prefix} {$metric}")) . ": " . $value;
             }
         }
 

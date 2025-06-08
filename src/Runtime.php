@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime;
 
 use Symfony\Component\HttpKernel\KernelInterface;
