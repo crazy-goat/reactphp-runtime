@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Middleware;
 
-use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\JsonMetricsFormatter;
 use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\MetricsFormatterInterface;
 use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\TextMetricsFormatter;
 use CrazyGoat\ReactPHPRuntime\Metrics\MetricsInterface;
@@ -29,11 +30,11 @@ class MetricsMiddleware
             return new Response(
                 StatusCodeInterface::STATUS_OK,
                 ['Content-Type' => $this->formatter->contentType()],
-                $this->formatter->format($this->metrics->getMetrics())
+                $this->formatter->format($this->metrics->getMetrics()),
             );
         }
 
-        $this->metrics->incrementConnections();;
+        $this->metrics->incrementConnections();
         $startTime = microtime(true);
         $response = $next($request);
         $endTime = microtime(true);

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Metrics\Formatter;
 
 use CrazyGoat\ReactPHPRuntime\Metrics\MetricsCollection;

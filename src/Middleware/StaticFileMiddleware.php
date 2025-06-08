@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace CrazyGoat\ReactPHPRuntime\Middleware;
 
 use Fig\Http\Message\StatusCodeInterface;
@@ -28,14 +30,14 @@ class StaticFileMiddleware
         if (!is_file($fileCandidate) || !is_readable($fileCandidate)) {
             return $next($request);
         }
-        echo "$fileCandidate".PHP_EOL;
+        echo "$fileCandidate" . PHP_EOL;
         return new Response(
             StatusCodeInterface::STATUS_OK,
             [
                 'Content-Type' => $this->getMimeType($fileCandidate),
                 'Content-Length' => filesize($fileCandidate),
             ],
-            file_get_contents($fileCandidate)
+            file_get_contents($fileCandidate),
         );
 
     }

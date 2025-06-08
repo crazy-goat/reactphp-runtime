@@ -1,8 +1,8 @@
 <?php
 
-namespace CrazyGoat\ReactPHPRuntime\Metrics;
+declare(strict_types=1);
 
-use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\MetricsFormatterInterface;
+namespace CrazyGoat\ReactPHPRuntime\Metrics;
 
 interface MetricsInterface
 {
