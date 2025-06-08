@@ -15,13 +15,11 @@ use Throwable;
 
 class RequestHandler implements RequestHandlerInterface
 {
-    private HttpKernelInterface $kernel;
     private HttpFoundationFactory $httpFoundationFactory;
     private PsrHttpFactory $httpMessageFactory;
 
-    public function __construct(HttpKernelInterface $kernel)
+    public function __construct(private HttpKernelInterface $kernel)
     {
-        $this->kernel = $kernel;
         $this->httpFoundationFactory = new HttpFoundationFactory();
         $this->httpMessageFactory = new PsrHttpFactory();
     }

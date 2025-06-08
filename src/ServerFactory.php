@@ -9,6 +9,7 @@ use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\TextMetricsFormatter;
 use CrazyGoat\ReactPHPRuntime\Middleware\ErrorMiddleware;
 use CrazyGoat\ReactPHPRuntime\Middleware\MetricsMiddleware;
 use CrazyGoat\ReactPHPRuntime\Middleware\StaticFileMiddleware;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
@@ -53,7 +54,7 @@ class ServerFactory
     public function createServer(RequestHandlerInterface $requestHandler): LoopInterface
     {
         $loop = Loop::get();
-        $loop->addSignal(SIGTERM, function (int $signal) {
+        $loop->addSignal(SIGTERM, function (int $signal): void {
             exit(128 + $signal);
         });
 
@@ -62,9 +63,7 @@ class ServerFactory
             new ErrorMiddleware($this->kernel->isDebug()),
             new MetricsMiddleware('/metrics', new BasicMetric()),
             new StaticFileMiddleware($this->options['root_dir']),
-            function (ServerRequestInterface $request) use ($requestHandler) {
-                return $requestHandler->handle($request);
-            },
+            fn(ServerRequestInterface $request): ResponseInterface => $requestHandler->handle($request),
         );
 
         $listen = sprintf('%s:%s', $this->options['host'], $this->options['port']);

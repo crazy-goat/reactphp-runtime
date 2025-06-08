@@ -26,7 +26,8 @@
         "phpunit/phpunit": "^9.5",
         "nyholm/psr7": "^1.8",
         "league/mime-type-detection": "^1.16",
-        "php-cs-fixer/shim": "^3.75"
+        "php-cs-fixer/shim": "^3.75",
+        "rector/rector": "^2.0"
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
@@ -50,10 +51,12 @@
             "vendor/bin/phpunit"
         ],
         "lint-fix": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v"
+            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v",
+            "vendor/bin/rector process"
         ],
         "lint": [
-            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v --dry-run"
+            "PHP_CS_FIXER_IGNORE_ENV=1 vendor/bin/php-cs-fixer fix -v --dry-run",
+            "vendor/bin/rector process --dry-run"
         ]
     }
 }
