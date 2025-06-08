@@ -69,7 +69,7 @@ class StaticFileMiddleware
             }
         }
 
-        if (class_exists('\League\MimeTypeDetection\FinfoMimeTypeDetector')) {
+        if (class_exists(FinfoMimeTypeDetector::class)) {
             $detector = new FinfoMimeTypeDetector();
 
             $type = $detector->detectMimeTypeFromPath($filename);

@@ -9,13 +9,8 @@ use Symfony\Component\Runtime\RunnerInterface;
 
 class Runner implements RunnerInterface
 {
-    private KernelInterface $kernel;
-    private ServerFactory $serverFactory;
-
-    public function __construct(ServerFactory $serverFactory, KernelInterface $kernel)
+    public function __construct(private ServerFactory $serverFactory, private KernelInterface $kernel)
     {
-        $this->serverFactory = $serverFactory;
-        $this->kernel = $kernel;
     }
 
     public function run(): int

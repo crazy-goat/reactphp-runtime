@@ -22,7 +22,7 @@ class MetricsMiddleware
 
     public function __invoke(ServerRequestInterface $request, $next)
     {
-        if ($this->metrics === null || $this->metricsUrl === '') {
+        if (!$this->metrics instanceof MetricsInterface || $this->metricsUrl === '') {
             return $next($request);
         }
 
