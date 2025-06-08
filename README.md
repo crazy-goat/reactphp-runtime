@@ -21,9 +21,11 @@ Define the environment variable `APP_RUNTIME` for your application. You can also
 
 ## Server options
 
-| Option    | Description                                                                                | Default |
-|-----------|--------------------------------------------------------------------------------------------|---------|
-| `host`    | The host where the server should bind to (precedes `REACT_HOST` environment variable)      | `127.0.0.1` |
-| `port`    | The port where the server should be listening (precedes `REACT_PORT` environment variable) | `8080`  |
-| `document_root_dir` | Set the root dir for serving files (precedes `DOCUMENT_ROOT_DIR` environment variable)            | `""`      |
-
+| Option              | Description                                   |                           | Default                                                             |
+|---------------------|-----------------------------------------------|---------------------------|---------------------------------------------------------------------|
+| `host`              | The host where the server should bind to      | `REACT_HOST`              | `0.0.0.0`                                                           |
+| `port`              | The port where the server should be listening | `REACT_PORT`              | `8080`                                                              |
+| `root_dir`          | Set the root dir for serving files            | `REACT_ROOT_DIR`          | `""`                                                                |
+| `metrics_interval`  | Set metrics refresh interval                  | `REACT_METRIC_INTERVAL`   | `5`                                                                 |
+| `metrics_path`      | Set metrics url, empty string disable metrics | `REACT_METRICS_PATH`      | `""`                                                                |        
+| `metrics_formatter` | Set metrics format class                      | `REACT_METRICS_FORMATTER` | `\CrazyGoat\ReactPHPRuntime\Metrics\Formatter\TextMetricsFormatter` |

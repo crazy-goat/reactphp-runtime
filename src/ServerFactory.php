@@ -2,22 +2,28 @@
 
 namespace CrazyGoat\ReactPHPRuntime;
 
+use CrazyGoat\ReactPHPRuntime\Metrics\BasicMetric;
+use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\TextMetricsFormatter;
+use CrazyGoat\ReactPHPRuntime\Middleware\ErrorMiddleware;
+use CrazyGoat\ReactPHPRuntime\Middleware\MetricsMiddleware;
+use CrazyGoat\ReactPHPRuntime\Middleware\StaticFileMiddleware;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
-use React\Filesystem\Factory;
-use React\Filesystem\Filesystem;
 use React\Http\HttpServer;
-use React\Http\Io\MiddlewareRunner;
 use React\Socket\SocketServer;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServerFactory
 {
     private const DEFAULT_OPTIONS = [
-        'host' => '127.0.0.1',
+        'host' => '0.0.0.0',
         'port' => 8080,
-        'document_root_dir' => '',
+        'root_dir' => '',
+        'metrics_interval' => 5,
+        'metrics_path' => '',
+        'metrics_formatter' => TextMetricsFormatter::class,
     ];
     private array $options;
 
@@ -26,13 +32,20 @@ class ServerFactory
         return self::DEFAULT_OPTIONS;
     }
 
-    public function __construct(array $options = [])
+    public function __construct(array $options = [], private KernelInterface $kernel)
     {
-        $options['host'] = $options['host'] ?? $_SERVER['REACT_HOST'] ?? $_ENV['REACT_HOST'] ?? self::DEFAULT_OPTIONS['host'];
-        $options['port'] = $options['port'] ?? $_SERVER['REACT_PORT'] ?? $_ENV['REACT_PORT'] ?? self::DEFAULT_OPTIONS['port'];
-        $options['document_root_dir'] = $options['document_root_dir'] ?? $_SERVER['DOCUMENT_ROOT_DIR'] ?? $_ENV['DOCUMENT_ROOT_DIR'] ?? self::DEFAULT_OPTIONS['document_root_dir'];
+        $options['host'] = $this->getOption('host', 'REACT_HOST', $options, '0.0.0.0');
+        $options['port'] = $this->getOption('port', 'REACT_PORT', $options, 8080);
+        $options['root_dir'] = $this->getOption('root_dir', 'REACT_ROOT_DIR', $options, '');
+        $options['metrics_interval'] = $this->getOption('metrics_interval', 'REACT_METRIC_INTERVAL', $options, 5);
+        $options['metrics_path'] = $this->getOption('metrics_path', 'REACT_METRICS_PATH', $options, '');
 
         $this->options = array_replace_recursive(self::DEFAULT_OPTIONS, $options);
+    }
+
+    private function getOption(string $name, string $envName, array $options, mixed $default = null): mixed
+    {
+        return $options[$name] ?? $_SERVER[$envName] ?? $_ENV[$envName] ?? self::DEFAULT_OPTIONS[$name] ?? $default;
     }
 
     public function createServer(RequestHandlerInterface $requestHandler): LoopInterface
@@ -44,7 +57,9 @@ class ServerFactory
 
         $server = new HttpServer(
             $loop,
-            new StaticFileMiddleware($this->options['document_root_dir']),
+            new ErrorMiddleware($this->kernel->isDebug()),
+            new MetricsMiddleware('/metrics', new BasicMetric()),
+            new StaticFileMiddleware($this->options['root_dir']),
             function (ServerRequestInterface $request) use ($requestHandler) {
                 return $requestHandler->handle($request);
             }
@@ -54,9 +69,6 @@ class ServerFactory
         echo "Listening on $listen\nYou can check your service on http://{$listen}\n";
         $socket = new SocketServer($listen, [], $loop);
         $server->listen($socket);
-        $server->on('error', function (\Throwable $e) {
-            echo $e->getMessage().PHP_EOL.$e->getTraceAsString();
-        });
         return $loop;
     }
 

@@ -6,3 +6,4 @@ composer.lock
 /.idea/phpunit.xml
 /.idea/reactphp-runtime.iml
 /.idea/vcs.xml
+/.idea/symfony2.xml

@@ -1,0 +1,23 @@
+<?php
+
+namespace CrazyGoat\ReactPHPRuntime\Metrics;
+
+class MetricsCollection
+{
+    private array $metrics = [];
+
+    public function __construct()
+    {
+    }
+
+    public function addGauge(string $prefix, string $label, float|int $value): void
+    {
+        $this->metrics[$prefix][$label] = $value;
+    }
+
+    public function getMetrics(): array
+    {
+        return $this->metrics;
+    }
+
+}
