@@ -1,6 +1,6 @@
 <?php
 
-namespace CrazyGoat\ReactPHPRuntime;
+namespace CrazyGoat\ReactPHPRuntime\Middleware;
 
 use Fig\Http\Message\StatusCodeInterface;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
