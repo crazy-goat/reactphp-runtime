@@ -27,7 +27,7 @@
         "nyholm/psr7": "^1.8",
         "league/mime-type-detection": "^1.16"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
