@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CrazyGoat\ReactPHPRuntime\Tests;
 
-use CrazyGoat\ReactPHPRuntime\Runner;
-use CrazyGoat\ReactPHPRuntime\ServerFactory;
+use CrazyGoat\ReactPHPRuntime\Standalone\Runner;
+use CrazyGoat\ReactPHPRuntime\Standalone\ServerFactory;
 use PHPUnit\Framework\TestCase;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;

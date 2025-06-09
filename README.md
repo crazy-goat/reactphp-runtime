@@ -16,7 +16,7 @@ Define the environment variable `APP_RUNTIME` for your application. You can also
 `APP_ENV` and `APP_DEBGU` variables to define runtime environment.
 
 ```
- APP_ENV=prod APP_DEBUG=1 APP_RUNTIME=CrazyGoat\\ReactPHPRuntime\\Runtime php ./public/index.ph
+ APP_ENV=prod APP_DEBUG=1 APP_RUNTIME=CrazyGoat\\ReactPHPRuntime\\Standalone\\Runtime php ./public/index.ph
 ```
 
 ## Server options

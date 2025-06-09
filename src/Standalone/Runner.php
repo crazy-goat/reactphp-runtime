@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CrazyGoat\ReactPHPRuntime;
+namespace CrazyGoat\ReactPHPRuntime\Standalone;
 
+use CrazyGoat\ReactPHPRuntime\RequestHandler;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Runtime\RunnerInterface;
 
