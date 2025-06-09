@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class ServerFactoryTest extends TestCase
 {
@@ -26,7 +27,7 @@ class ServerFactoryTest extends TestCase
 
     public function testCreateServerWithDefaultOptions(): void
     {
-        $factory = new ServerFactory();
+        $factory = new ServerFactory([], self::createMock(KernelInterface::class));
         $loop = $factory->createServer($this->handler);
 
         self::assertInstanceOf(LoopInterface::class, $loop);
@@ -35,11 +36,13 @@ class ServerFactoryTest extends TestCase
 
     public function testCreateServerWithOptions(): void
     {
+
         $options = [
+            ...ServerFactory::getDefaultOptions(),
             'host' => '0.0.0.0',
             'port' => '9999',
         ];
-        $factory = new ServerFactory($options);
+        $factory = new ServerFactory($options, self::createMock(KernelInterface::class));
         $factory->createServer($this->handler);
 
         self::assertSame($options, $factory->getOptions());

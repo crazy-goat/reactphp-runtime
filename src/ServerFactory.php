@@ -50,6 +50,7 @@ class ServerFactory
         $this->options['root_dir'] = $this->getOption('root_dir', 'REACT_ROOT_DIR', $options, '');
         $this->options['metrics_interval'] = $this->getOption('metrics_interval', 'REACT_METRIC_INTERVAL', $options, 5);
         $this->options['metrics_path'] = $this->getOption('metrics_path', 'REACT_METRICS_PATH', $options, '');
+        $this->options['metrics_formatter'] = $this->getOption('metrics_formatter', 'REACT_METRICS_FORMATTER', $options, TextMetricsFormatter::class);
     }
 
     /**
@@ -81,7 +82,6 @@ class ServerFactory
         );
 
         $listen = sprintf('%s:%s', $this->options['host'], $this->options['port']);
-        echo "Listening on $listen\nYou can check your service on http://{$listen}\n";
         $socket = new SocketServer($listen, [], $loop);
         $server->listen($socket);
         return $loop;

@@ -7,10 +7,10 @@ namespace CrazyGoat\ReactPHPRuntime\Tests;
 use CrazyGoat\ReactPHPRuntime\Runner;
 use CrazyGoat\ReactPHPRuntime\ServerFactory;
 use PHPUnit\Framework\TestCase;
-use Psr\Http\Server\RequestHandlerInterface;
 use React\EventLoop\Loop;
 use React\EventLoop\LoopInterface;
 use React\Http\HttpServer;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 class RunnerTest extends TestCase
 {
@@ -21,7 +21,7 @@ class RunnerTest extends TestCase
         Loop::set($loop);
         $server = new HttpServer($handler); // final, cannot be mocked
         $factory = $this->createMock(ServerFactory::class);
-        $application = $this->createMock(RequestHandlerInterface::class);
+        $application = $this->createMock(KernelInterface::class);
 
         $factory->expects(self::once())->method('createServer')->willReturn($loop);
 
