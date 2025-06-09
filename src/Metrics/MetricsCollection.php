@@ -6,6 +6,7 @@ namespace CrazyGoat\ReactPHPRuntime\Metrics;
 
 class MetricsCollection
 {
+    /** @var array<string, array<string| float|int>> */
     private array $metrics = [];
 
     public function addGauge(string $prefix, string $label, float|int $value): void
@@ -13,6 +14,7 @@ class MetricsCollection
         $this->metrics[$prefix][$label] = $value;
     }
 
+    /** @return array<string, array<string| float|int>>   */
     public function getMetrics(): array
     {
         return $this->metrics;

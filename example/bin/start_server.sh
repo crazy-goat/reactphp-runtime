@@ -8,4 +8,5 @@ export APP_DEBUG=0
 export APP_RUNTIME=CrazyGoat\\ReactPHPRuntime\\Runtime
 export REACT_ROOT_DIR
 
+echo "Starting http server, visit http://$REACT_HOST:$REACT_PORT"
 php ./public/index.php

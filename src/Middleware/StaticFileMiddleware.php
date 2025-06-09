@@ -6,38 +6,42 @@ namespace CrazyGoat\ReactPHPRuntime\Middleware;
 
 use Fig\Http\Message\StatusCodeInterface;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
+use React\Promise\PromiseInterface;
 
-class StaticFileMiddleware
+class StaticFileMiddleware implements MiddlewareInterface
 {
+    use ReturnNextResponse;
+
     public function __construct(private string $rootDirectory)
     {
     }
 
-    public function __invoke(ServerRequestInterface $request, $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface|ResponseInterface
     {
         if ($this->rootDirectory === '' || $request->getUri()->getPath() === '/') {
-            return $next($request);
+            return $this->returnResponse($next($request));
         }
 
         $fileCandidate = $this->sanitizePathInfo($request->getUri()->getPath(), $this->rootDirectory);
 
         if ($fileCandidate === null) {
-            return $next($request);
+            return $this->returnResponse($next($request));
         }
 
         if (!is_file($fileCandidate) || !is_readable($fileCandidate)) {
-            return $next($request);
+            return $this->returnResponse($next($request));
         }
         echo "$fileCandidate" . PHP_EOL;
         return new Response(
             StatusCodeInterface::STATUS_OK,
             [
                 'Content-Type' => $this->getMimeType($fileCandidate),
-                'Content-Length' => filesize($fileCandidate),
+                'Content-Length' =>  strval(intval(filesize($fileCandidate))),
             ],
-            file_get_contents($fileCandidate),
+            strval(file_get_contents($fileCandidate)),
         );
 
     }
@@ -49,8 +53,9 @@ class StaticFileMiddleware
         $pathInfo = preg_replace('/(\/){2,}/', '/', $pathInfo);
         $fullPath = $baseDir . '/' . $pathInfo;
         $realPath = realpath($fullPath);
+        $baseDirPath = realpath($baseDir);
 
-        if ($realPath === false || !str_starts_with($realPath, realpath($baseDir))) {
+        if ($realPath === false || $baseDirPath === false || !str_starts_with($realPath, $baseDirPath)) {
             return null;
         }
 
@@ -59,12 +64,12 @@ class StaticFileMiddleware
 
     private function getMimeType(string $filename): string
     {
-        $type = 'application/octet-stream';
+        $typeDefault = 'application/octet-stream';
 
         if (function_exists('mime_content_type')) {
             $type = mime_content_type($filename);
 
-            if ($type !== false) {
+            if (is_string($type)) {
                 return $type;
             }
         }
@@ -74,11 +79,11 @@ class StaticFileMiddleware
 
             $type = $detector->detectMimeTypeFromPath($filename);
 
-            if ($type !== null) {
+            if (is_string($type)) {
                 return $type;
             }
         }
 
-        return $type;
+        return $typeDefault;
     }
 }

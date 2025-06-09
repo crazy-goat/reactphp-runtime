@@ -8,22 +8,26 @@ use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\MetricsFormatterInterface;
 use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\TextMetricsFormatter;
 use CrazyGoat\ReactPHPRuntime\Metrics\MetricsInterface;
 use Fig\Http\Message\StatusCodeInterface;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Message\Response;
+use React\Promise\PromiseInterface;
 
-class MetricsMiddleware
+class MetricsMiddleware implements MiddlewareInterface
 {
-    private ?MetricsFormatterInterface $formatter;
+    use ReturnNextResponse;
+
+    private MetricsFormatterInterface $formatter;
 
     public function __construct(private string $metricsUrl = '', private ?MetricsInterface $metrics = null, ?MetricsFormatterInterface $formatter = null)
     {
         $this->formatter = $formatter ?? new TextMetricsFormatter();
     }
 
-    public function __invoke(ServerRequestInterface $request, $next)
+    public function __invoke(ServerRequestInterface $request, callable $next): PromiseInterface|ResponseInterface
     {
         if (!$this->metrics instanceof MetricsInterface || $this->metricsUrl === '') {
-            return $next($request);
+            return $this->returnResponse($next($request));
         }
 
         if ($request->getUri()->getPath() === $this->metricsUrl) {
@@ -40,6 +44,6 @@ class MetricsMiddleware
         $endTime = microtime(true);
         $this->metrics->incrementProcessingTime($endTime - $startTime);
 
-        return $response;
+        return $this->returnResponse($response);
     }
 }
