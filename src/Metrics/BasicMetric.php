@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace CrazyGoat\ReactPHPRuntime\Metrics;
 
-use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\JsonMetricsFormatter;
-use CrazyGoat\ReactPHPRuntime\Metrics\Formatter\MetricsFormatterInterface;
-
 class BasicMetric implements MetricsInterface
 {
     private int $totalConnectionCount = 0;
@@ -21,12 +18,10 @@ class BasicMetric implements MetricsInterface
     private ?float $latestMinProcessTime = null;
     private int $latestMaxMemoryUsage = 0;
     private int $latestMemoryUsage = 0;
-    private MetricsFormatterInterface $metricFormatter;
 
-    public function __construct(private int $interval = 5, ?MetricsFormatterInterface $metricFormatter = null)
+    public function __construct(private int $interval = 5)
     {
         $this->refreshPeriod();
-        $this->metricFormatter = $metricFormatter ?? new JsonMetricsFormatter();
     }
 
     public function setInterval(int $interval): void
@@ -54,7 +49,7 @@ class BasicMetric implements MetricsInterface
     {
         $this->refreshPeriod();
 
-        $metricsCollection = new MetricsCollection($this->metricFormatter);
+        $metricsCollection = new MetricsCollection();
         $metricsCollection->addGauge('total', 'connections', $this->totalConnectionCount);
         $metricsCollection->addGauge('total', 'max_process_time', $this->maxProcessTime ?? 0.0);
         $metricsCollection->addGauge('total', 'min_process_time', $this->minProcessTime ?? 0.0);
