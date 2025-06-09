@@ -34,7 +34,7 @@ class StaticFileMiddleware implements MiddlewareInterface
         if (!is_file($fileCandidate) || !is_readable($fileCandidate)) {
             return $this->returnResponse($next($request));
         }
-        echo "$fileCandidate" . PHP_EOL;
+
         return new Response(
             StatusCodeInterface::STATUS_OK,
             [

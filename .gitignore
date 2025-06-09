@@ -8,3 +8,4 @@ composer.lock
 /.idea/vcs.xml
 /.idea/symfony2.xml
 /.phpunit.result.cache
+/var

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace CrazyGoat\ReactPHPRuntime\Tests;
 
-use CrazyGoat\ReactPHPRuntime\Runner;
-use CrazyGoat\ReactPHPRuntime\Runtime;
+use CrazyGoat\ReactPHPRuntime\Standalone\Runner;
+use CrazyGoat\ReactPHPRuntime\Standalone\Runtime;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\KernelInterface;
 
